@@ -1,9 +1,16 @@
 import { useState } from 'react'
+import Header from "./components/Header.jsx";
 function App() {
 
+  const [budget, setBudget] = useState(0)
+
+
   return (
-    <div className="App">
-      <h1>Hola</h1>
+    <div>
+      <Header
+          budget={budget}
+          setBudget={setBudget}
+      />
     </div>
   )
 }
