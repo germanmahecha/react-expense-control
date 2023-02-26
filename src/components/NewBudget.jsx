@@ -1,17 +1,23 @@
 import React, {useState} from "react";
 import Message from "./Message.jsx";
-const NewBudget = ({budget,setBudget}) => {
+const NewBudget = ({
+   budget,
+   setBudget,
+   setIsValidBudget
+}) => {
 
     const [message, setMessage] = useState('')
 
+
     const handleBudget = (e) => {
         e.preventDefault();
-        if(!Number(budget) || Number(budget) < 0){
+        if(!budget || budget < 0){
             //Add message if it does not meet the condition
             setMessage('Budget invalid')
             return
         }
         setMessage('')
+        setIsValidBudget(true)
 
     }
     return(
