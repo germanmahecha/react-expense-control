@@ -1,7 +1,9 @@
 import closeBtn from './../img/cerrar.svg'
 import {useState} from "react";
-const Modal = ({setModal, modalAnimation, setModalAnimation}) => {
+import Message from "./Message.jsx";
+const Modal = ({setModal, modalAnimation, setModalAnimation, saveSpend}) => {
 
+    const [message, setMessage] = useState('')
     const [name, setName] = useState('')
     const [amount, setAmount] = useState('')
     const [category, setCategory] = useState('')
@@ -13,6 +15,21 @@ const Modal = ({setModal, modalAnimation, setModalAnimation}) => {
             setModal(false)
         }, 300);
     }
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        //Validation all fields
+        if([name, amount, category].includes('')){
+           setMessage('All fields are required')
+            setTimeout(()=>{
+                setMessage('')
+            },3000)
+           return
+        }
+        saveSpend({name, amount, category})
+    }
+
+
     return(
         <div className="modal">
             <div className="cerrar-modal">
@@ -23,8 +40,14 @@ const Modal = ({setModal, modalAnimation, setModalAnimation}) => {
                 />
             </div>
 
-            <form className={ `formulario ${ modalAnimation ? 'animar' : 'cerrar'}` }>
+
+            <form
+                onSubmit={handleSubmit}
+                className={ `formulario ${ modalAnimation ? 'animar' : 'cerrar'}` }
+            >
                 <legend>New Spend</legend>
+
+                {message && <Message type={'error'}>{message} </Message>}
 
                 <div className="campo">
                     <label htmlFor="nombre">Spend Name</label>
@@ -55,6 +78,7 @@ const Modal = ({setModal, modalAnimation, setModalAnimation}) => {
                         id="categoria"
                         value={category}
                         onChange={ e => setCategory(e.target.value)}
+
                     >
                         <option value="">-- Select one --</option>
                         <option value="savings">Savings</option>
