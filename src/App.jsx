@@ -3,13 +3,14 @@ import Header from "./components/Header.jsx";
 import {IdGenerator} from "./helpers/index.js";
 import IconNewSpend from './img/nuevo-gasto.svg'
 import Modal from "./components/Modal.jsx";
+import SpendsList from './components/SpendsList.jsx';
 function App() {
 
   const [budget, setBudget] = useState(0)
   const [isValidBudget, setIsValidBudget] = useState(false)
   const [modal, setModal] = useState(false)
   const [modalAnimation, setModalAnimation] = useState(false)
-  const [spends, setSpends] = useState([0])
+  const [spends, setSpends] = useState([])
 
     const handleNewSpend = () => {
         setModal(true)
@@ -20,6 +21,7 @@ function App() {
     }
     const saveSpend = spend => {
       spend.id = IdGenerator();
+      spend.dateS = Date.now();
       setSpends([...spends, spend])
         //Close modal
         setModalAnimation(false)
@@ -29,7 +31,7 @@ function App() {
     }
 
   return (
-    <div>
+    <div className={modal && 'fijar'}>
       <Header
           budget={budget}
           setBudget={setBudget}
@@ -38,6 +40,9 @@ function App() {
       />
         { isValidBudget && (
             <>
+                <main>
+                  <SpendsList spends={spends}/>
+                </main>
                 <div className="nuevo-gasto">
                     <img
                         src={IconNewSpend}
