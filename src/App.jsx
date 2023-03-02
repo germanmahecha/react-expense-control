@@ -5,12 +5,11 @@ import IconNewSpend from './img/nuevo-gasto.svg'
 import Modal from "./components/Modal.jsx";
 import SpendsList from './components/SpendsList.jsx';
 function App() {
-
+  const [spends, setSpends] = useState([])
   const [budget, setBudget] = useState(0)
   const [isValidBudget, setIsValidBudget] = useState(false)
   const [modal, setModal] = useState(false)
   const [modalAnimation, setModalAnimation] = useState(false)
-  const [spends, setSpends] = useState([])
 
     const handleNewSpend = () => {
         setModal(true)
@@ -31,8 +30,9 @@ function App() {
     }
 
   return (
-    <div className={modal && 'fijar'}>
+    <div className={ modal ? 'fijar' : ''}>
       <Header
+          spends={spends}
           budget={budget}
           setBudget={setBudget}
           isValidBudget={isValidBudget}
