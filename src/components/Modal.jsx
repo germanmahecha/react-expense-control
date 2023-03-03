@@ -1,12 +1,26 @@
 import closeBtn from './../img/cerrar.svg'
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import Message from "./Message.jsx";
-const Modal = ({setModal, modalAnimation, setModalAnimation, saveSpend}) => {
+const Modal = ({
+    setModal,
+     modalAnimation, 
+     setModalAnimation, 
+     saveSpend, 
+     spendEdit
+    }) => {
 
     const [message, setMessage] = useState('')
     const [name, setName] = useState('')
     const [amount, setAmount] = useState('')
     const [category, setCategory] = useState('')
+
+useEffect(()=>{
+    if( Object.keys(spendEdit).length > 0){
+        setName(spendEdit.name)
+        setAmount(spendEdit.amount)
+        setCategory(spendEdit.category)
+    }
+}, [])
 
     const closeModal = () => {
         setModalAnimation(false)

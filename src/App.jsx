@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Header from "./components/Header.jsx";
 import {IdGenerator} from "./helpers/index.js";
 import IconNewSpend from './img/nuevo-gasto.svg'
@@ -10,24 +10,40 @@ function App() {
   const [isValidBudget, setIsValidBudget] = useState(false)
   const [modal, setModal] = useState(false)
   const [modalAnimation, setModalAnimation] = useState(false)
+  const [spendEdit, setSpendEdit] = useState({})
 
-    const handleNewSpend = () => {
-        setModal(true)
 
-        setTimeout(()=>{
-            setModalAnimation(true)
-        },500)
+  useEffect(()=>{
+    if( Object.keys(spendEdit).length > 0){
+      setModal(true)
+
+      setTimeout(()=>{
+          setModalAnimation(true)
+      },500)
     }
-    const saveSpend = spend => {
-      spend.id = IdGenerator();
-      spend.dateS = Date.now();
-      setSpends([...spends, spend])
-        //Close modal
-        setModalAnimation(false)
-        setTimeout(() => {
-            setModal(false)
-        }, 300);
-    }
+  },[spendEdit])
+
+
+  const handleNewSpend = () => {
+      setModal(true)
+
+      setTimeout(()=>{
+          setModalAnimation(true)
+      },500)
+  }
+  const saveSpend = spend => {
+    spend.id = IdGenerator();
+    spend.dateS = Date.now();
+    setSpends([...spends, spend])
+      //Close modal
+      setModalAnimation(false)
+      setTimeout(() => {
+          setModal(false)
+      }, 300);
+  }
+
+  
+
 
   return (
     <div className={ modal ? 'fijar' : ''}>
@@ -41,7 +57,7 @@ function App() {
         { isValidBudget && (
             <>
                 <main>
-                  <SpendsList spends={spends}/>
+                  <SpendsList spends={spends} setSpendEdit={setSpendEdit}/>
                 </main>
                 <div className="nuevo-gasto">
                     <img
@@ -57,6 +73,7 @@ function App() {
                     modalAnimation={modalAnimation}
                     setModalAnimation={setModalAnimation}
                     saveSpend={saveSpend}
+                    spendEdit={spendEdit}
                     /> }
 
     </div>
