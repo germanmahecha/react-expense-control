@@ -27,12 +27,12 @@ const dictionaryIcons = {
     subscriptions : IconSubscriptions
 }
 
-const Spend = ({spend, setSpendEdit}) => {
+const Spend = ({spend, setEditSpend, deleteSpend}) => {
 
-    const {category, name, amount, dateS, id}= spend
+    const {category, name, amount, id, dateS}= spend
     const leadingActions = () => (
         <LeadingActions>
-            <SwipeAction onClick={()=> setSpendEdit(spend)}>
+            <SwipeAction onClick={()=> setEditSpend(spend)}>
                 Edit
             </SwipeAction>
         </LeadingActions>
@@ -40,7 +40,10 @@ const Spend = ({spend, setSpendEdit}) => {
 
     const trailingActions = () => (
         <TrailingActions>
-            <SwipeAction onClick={()=> console.log("Eliminar")}>
+            <SwipeAction
+                onClick={()=> deleteSpend(id)}
+                destructive={true}
+            >
                 Delete
             </SwipeAction>
         </TrailingActions>

@@ -10,18 +10,18 @@ function App() {
   const [isValidBudget, setIsValidBudget] = useState(false)
   const [modal, setModal] = useState(false)
   const [modalAnimation, setModalAnimation] = useState(false)
-  const [spendEdit, setSpendEdit] = useState({})
+  const [editSpend, setEditSpend] = useState({})
 
 
   useEffect(()=>{
-    if( Object.keys(spendEdit).length > 0){
+    if( Object.keys(editSpend).length > 0){
       setModal(true)
 
       setTimeout(()=>{
           setModalAnimation(true)
       },500)
     }
-  },[spendEdit])
+  },[editSpend])
 
 
   const handleNewSpend = () => {
@@ -32,14 +32,29 @@ function App() {
       },500)
   }
   const saveSpend = spend => {
-    spend.id = IdGenerator();
-    spend.dateS = Date.now();
-    setSpends([...spends, spend])
+      console.log(spend)
+     if(spend.id){
+         //Update
+         const spendsUpdated = spends.map( spendState => spendState.id === spend.id ? spend : spendState)
+         setSpends(spendsUpdated)
+         setEditSpend({})
+     }else{
+         spend.id = IdGenerator();
+         spend.dateS = Date.now();
+         setSpends([...spends, spend])
+     }
+
       //Close modal
       setModalAnimation(false)
       setTimeout(() => {
           setModal(false)
-      }, 300);
+      }, 500);
+  }
+
+  const deleteSpend = id => {
+      console.log(`eliminando`, id)
+      const spendsUpdated = spends.filter( spend => spend.id !== id );
+      setSpends(spendsUpdated)
   }
 
   
@@ -57,7 +72,11 @@ function App() {
         { isValidBudget && (
             <>
                 <main>
-                  <SpendsList spends={spends} setSpendEdit={setSpendEdit}/>
+                  <SpendsList
+                      spends={spends}
+                      setEditSpend={setEditSpend}
+                      deleteSpend={deleteSpend}
+                  />
                 </main>
                 <div className="nuevo-gasto">
                     <img
@@ -73,7 +92,8 @@ function App() {
                     modalAnimation={modalAnimation}
                     setModalAnimation={setModalAnimation}
                     saveSpend={saveSpend}
-                    spendEdit={spendEdit}
+                    editSpend={editSpend}
+                    setEditSpend={setEditSpend}
                     /> }
 
     </div>
@@ -81,3 +101,4 @@ function App() {
 }
 
 export default App
+

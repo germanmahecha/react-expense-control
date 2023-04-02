@@ -2,32 +2,37 @@ import closeBtn from './../img/cerrar.svg'
 import {useState, useEffect} from "react";
 import Message from "./Message.jsx";
 const Modal = ({
-    setModal,
+     setModal,
      modalAnimation, 
      setModalAnimation, 
      saveSpend, 
-     spendEdit
+     editSpend,
+     setEditSpend
     }) => {
 
     const [message, setMessage] = useState('')
     const [name, setName] = useState('')
     const [amount, setAmount] = useState('')
     const [category, setCategory] = useState('')
+    const [dateS, setDateS] = useState('')
+    const [id, setId] = useState('')
 
 useEffect(()=>{
-    if( Object.keys(spendEdit).length > 0){
-        setName(spendEdit.name)
-        setAmount(spendEdit.amount)
-        setCategory(spendEdit.category)
+    if( Object.keys(editSpend).length > 0){
+        setName(editSpend.name)
+        setAmount(editSpend.amount)
+        setCategory(editSpend.category)
+        setDateS(editSpend.dateS)
+        setId(editSpend.id)
     }
 }, [])
 
     const closeModal = () => {
         setModalAnimation(false)
-
+        setEditSpend({})
         setTimeout(() => {
             setModal(false)
-        }, 300);
+        }, 500);
     }
 
     const handleSubmit = (e) => {
@@ -40,7 +45,7 @@ useEffect(()=>{
             },3000)
            return
         }
-        saveSpend({name, amount, category})
+        saveSpend({ name, amount, category, id, dateS})
     }
 
 
@@ -54,12 +59,12 @@ useEffect(()=>{
                 />
             </div>
 
-
             <form
                 onSubmit={handleSubmit}
                 className={ `formulario ${ modalAnimation ? 'animar' : 'cerrar'}` }
             >
-                <legend>New Spend</legend>
+                <legend>{ editSpend.name ? 'Edit Spend' +
+                    '' : 'New Spend' }</legend>
 
                 {message && <Message type={'error'}>{message} </Message>}
 
@@ -75,7 +80,7 @@ useEffect(()=>{
                     />
                 </div>
                 <div className="campo">
-                    <label htmlFor="cantidad">Cantidad</label>
+                    <label htmlFor="cantidad">Amount</label>
 
                     <input
                         id="cantidad"
@@ -86,7 +91,7 @@ useEffect(()=>{
                     />
                 </div>
                 <div className="campo">
-                    <label htmlFor="categoria">Categoría</label>
+                    <label htmlFor="categoria">Category</label>
 
                     <select
                         id="categoria"
@@ -107,10 +112,8 @@ useEffect(()=>{
 
                 <input
                     type="submit"
-                    //value={gastoEditar.nombre ? 'Save changes' : 'Add Spend'}
+                    value={ editSpend.name ? 'Save changes' : 'Add Spend'}
                 />
-
-
             </form>
         </div>
     )
