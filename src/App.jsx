@@ -6,7 +6,9 @@ import Modal from "./components/Modal.jsx";
 import SpendsList from './components/SpendsList.jsx';
 function App() {
   const [spends, setSpends] = useState([])
-  const [budget, setBudget] = useState(0)
+  const [budget, setBudget] = useState(
+      Number(localStorage.getItem('budget')) ?? 0
+      )
   const [isValidBudget, setIsValidBudget] = useState(false)
   const [modal, setModal] = useState(false)
   const [modalAnimation, setModalAnimation] = useState(false)
@@ -24,6 +26,16 @@ function App() {
   },[editSpend])
 
 
+    useEffect(()=>{
+        localStorage.setItem('Budget', budget ?? 0)
+    }, [budget])
+
+    useEffect(()=>{
+        const budgetLS = Number(localStorage.getItem('Budget')) ?? 0
+        if(budgetLS > 0){
+            setIsValidBudget(true)
+        }
+    }, [])
   const handleNewSpend = () => {
       setModal(true)
 
