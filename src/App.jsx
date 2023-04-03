@@ -4,6 +4,8 @@ import {IdGenerator} from "./helpers/index.js";
 import IconNewSpend from './img/nuevo-gasto.svg'
 import Modal from "./components/Modal.jsx";
 import SpendsList from './components/SpendsList.jsx';
+import Filters from "./components/Filters.jsx";
+
 function App() {
   const [spends, setSpends] = useState([])
   const [budget, setBudget] = useState(
@@ -13,7 +15,8 @@ function App() {
   const [modal, setModal] = useState(false)
   const [modalAnimation, setModalAnimation] = useState(false)
   const [editSpend, setEditSpend] = useState({})
-
+  const [filter, setFilter] = useState("")
+  const [spendsFilter, setSpendsFilter] = useState([])
 
   useEffect(()=>{
     if( Object.keys(editSpend).length > 0){
@@ -45,6 +48,13 @@ function App() {
     useEffect(()=>{
         localStorage.getItem('Spends') ? JSON.parse(localStorage.getItem('Spends')) : []
     }, [])
+
+    useEffect(()=>{
+        if(filter){
+            const spendsFiltered = spends.filter( spend => spend.category === filter )
+            setSpendsFilter(spendsFiltered)
+        }
+    }, [filter])
 
 
 
@@ -96,10 +106,13 @@ function App() {
         { isValidBudget && (
             <>
                 <main>
+                  <Filters filter={filter} setFilter={setFilter} />
                   <SpendsList
                       spends={spends}
                       setEditSpend={setEditSpend}
                       deleteSpend={deleteSpend}
+                      filter={filter}
+                      spendsFilter={spendsFilter}
                   />
                 </main>
                 <div className="nuevo-gasto">
