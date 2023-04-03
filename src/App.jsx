@@ -36,6 +36,18 @@ function App() {
             setIsValidBudget(true)
         }
     }, [])
+
+
+    useEffect(()=>{
+        localStorage.setItem('Spends', JSON.stringify(spends) ?? [])
+    }, [spends])
+
+    useEffect(()=>{
+        localStorage.getItem('Spends') ? JSON.parse(localStorage.getItem('Spends')) : []
+    }, [])
+
+
+
   const handleNewSpend = () => {
       setModal(true)
 
