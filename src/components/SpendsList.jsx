@@ -14,7 +14,7 @@ import Spend from "./Spend";
             {
                 filter ? (
                     <>
-                        <h2>{spendsFilter.length ? 'Spends' : "No spends"}</h2>
+                        <h2>{spendsFilter.length ? 'Spends' : "No spends in this category"}</h2>
                         {spendsFilter.map(spend => (
                             <Spend
                                 key={spend.id}

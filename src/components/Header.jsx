@@ -3,9 +3,10 @@ import BudgetControl from "./BudgetControl.jsx";
 import NewBudget from "./NewBudget.jsx";
 
 const Header = ({
+    spends,
+    setSpends,
     budget,
     setBudget,
-    spends,
     isValidBudget,
     setIsValidBudget
 }) => {
@@ -14,8 +15,11 @@ const Header = ({
             <h1>Expense Planner</h1>
             {isValidBudget ? (
                 <BudgetControl
-                    budget={budget}
                     spends={spends}
+                    setSpends={setSpends}
+                    budget={budget}
+                    setBudget={setBudget}
+                    setIsValidBudget={setIsValidBudget}
                 />
             ) : (
                 <NewBudget

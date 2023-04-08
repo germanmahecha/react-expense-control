@@ -91,13 +91,11 @@ function App() {
       setSpends(spendsUpdated)
   }
 
-  
-
-
   return (
     <div className={ modal ? 'fijar' : ''}>
       <Header
           spends={spends}
+          setSpends={setSpends}
           budget={budget}
           setBudget={setBudget}
           isValidBudget={isValidBudget}
